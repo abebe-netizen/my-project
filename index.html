@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyHub – Student Academic Manager</title>
+ <link rel="stylesheet" href="style.css"\>
+</head>
+<body>
+
+  <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
+  <div id="overlay" class="overlay"></div>
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="logo">🎓</span><span>StudyHub</span></div>
+    <nav>
+      <a href="#home" data-page="home"><span>🏠</span> Home</a>
+      <a href="#materials" data-page="materials"><span>📚</span> Study Materials</a>
+      <a href="#dashboard" data-page="dashboard"><span>📊</span> Dashboard</a>
+      <a href="#quiz" data-page="quiz"><span>📝</span> Online Quiz</a>
+      <a href="#cgpa" data-page="cgpa"><span>🧮</span> CGPA Calculator</a>
+      <a href="#todo" data-page="todo"><span>✅</span> To-Do List</a>
+    </nav>
+    <div class="sidebar-foot">Data is saved in this browser.</div>
+  </aside>
+
+  <main class="content">
+
+    <!-- ============ 1. HOME ============ -->
+    <section id="page-home" class="page">
+      <div class="hero">
+        <div>
+          <h1><span id="greeting">Welcome</span>, <span id="studentName">Student</span> 👋</h1>
+          <p>StudyHub helps you keep your academic life in one place: store notes, track courses and exams,
+             practise with quizzes, calculate your CGPA and never miss a deadline.</p>
+          <button class="btn btn-light" id="editName">Change my name</button>
+        </div>
+      </div>
+
+      <div class="grid cols-4" id="homeStats"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2>📢 Latest Announcements</h2>
+          <ul class="list" id="announceList"></ul>
+          <form id="announceForm" class="inline-form">
+            <input type="text" id="announceText" placeholder="Add an announcement…" maxlength="160" required>
+            <button class="btn" type="submit">Post</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>⚡ Quick Access</h2>
+          <div class="quick">
+            <a href="#materials" class="quick-item">📚<b>Study Materials</b><small>Upload &amp; find notes</small></a>
+            <a href="#dashboard" class="quick-item">📊<b>Dashboard</b><small>Courses &amp; exams</small></a>
+            <a href="#quiz" class="quick-item">📝<b>Online Quiz</b><small>Test yourself</small></a>
+            <a href="#cgpa" class="quick-item">🧮<b>CGPA Calculator</b><small>GPA in seconds</small></a>
+            <a href="#todo" class="quick-item">✅<b>To-Do List</b><small>Track deadlines</small></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2. STUDY MATERIALS ============ -->
+    <section id="page-materials" class="page">
+      <header class="page-head">
+        <h1>📚 Study Materials</h1>
+        <p>Upload PDF notes, organise them by subject and search them instantly.</p>
+      </header>
+
+      <div class="card">
+        <h2>Upload a PDF</h2>
+        <form id="uploadForm" class="form-grid">
+          <label>Title
+            <input type="text" id="matTitle" placeholder="e.g. Chapter 3 – Data Structures" required maxlength="80">
+          </label>
+          <label>Subject
+            <input type="text" id="matSubject" list="subjectList" placeholder="Pick or type a subject" required maxlength="40">
+            <datalist id="subjectList"></datalist>
+          </label>
+          <label>PDF file (max 20 MB)
+            <input type="file" id="matFile" accept="application/pdf,.pdf" required>
+          </label>
+          <button class="btn" type="submit">⬆ Upload</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="search-row">
+          <input type="search" id="matSearch" placeholder="🔍 Search by title, subject or file name…">
+        </div>
+        <div id="matList"></div>
+      </div>
+    </section>
+
+    <!-- ============ 3. DASHBOARD ============ -->
+    <section id="page-dashboard" class="page">
+      <header class="page-head">
+        <h1>📊 Student Dashboard</h1>
+        <p>Your courses, assignments, exams and study progress at a glance.</p>
+      </header>
+
+      <div class="grid cols-4" id="dashStats"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2>📖 Enrolled Courses</h2>
+          <form id="courseForm" class="inline-form wrap">
+            <input type="text" id="courseCode" placeholder="Code (CS101)" maxlength="12" required>
+            <input type="text" id="courseName" placeholder="Course name" maxlength="50" required>
+            <input type="number" id="courseCredits" placeholder="Credits" min="1" max="12" value="3" required>
+            <button class="btn" type="submit">Add</button>
+          </form>
+          <div id="courseList"></div>
+        </div>
+
+        <div class="card">
+          <h2>🗓 Upcoming Exams</h2>
+          <form id="examForm" class="inline-form wrap">
+            <select id="examCourse" required></select>
+            <input type="date" id="examDate" required>
+            <button class="btn" type="submit">Add</button>
+          </form>
+          <ul class="list" id="examList"></ul>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <h2>📈 Study Progress</h2>
+          <div id="progressChart"></div>
+        </div>
+        <div class="card">
+          <h2>✔ Completed Assignments</h2>
+          <ul class="list" id="doneList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. ONLINE QUIZ ============ -->
+    <section id="page-quiz" class="page">
+      <header class="page-head">
+        <h1>📝 Online Quiz</h1>
+        <p>Choose a topic, answer the multiple-choice questions and see your results instantly.</p>
+      </header>
+
+      <div class="card" id="quizArea"></div>
+
+      <div class="card">
+        <h2>🏆 Recent Scores</h2>
+        <ul class="list" id="scoreList"></ul>
+      </div>
+    </section>
+
+    <!-- ============ 5. CGPA CALCULATOR ============ -->
+    <section id="page-cgpa" class="page">
+      <header class="page-head">
+        <h1>🧮 CGPA Calculator</h1>
+        <p>Enter your course credits and grades. GPA and CGPA update automatically (4.0 scale).</p>
+      </header>
+
+      <div class="two-col wide-left">
+        <div class="card">
+          <h2>This semester</h2>
+          <div class="table-wrap">
+            <table class="table" id="cgpaTable">
+              <thead><tr><th>Course</th><th>Credits</th><th>Grade</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          <button class="btn btn-ghost" id="addCgpaRow" type="button">+ Add course</button>
+        </div>
+
+        <div class="card">
+          <h2>Previous record <small>(optional)</small></h2>
+          <label>Previous CGPA
+            <input type="number" id="prevCgpa" min="0" max="4" step="0.01" placeholder="e.g. 3.45">
+          </label>
+          <label>Credits completed so far
+            <input type="number" id="prevCredits" min="0" step="1" placeholder="e.g. 60">
+          </label>
+
+          <div class="result-box">
+            <div><span>Semester GPA</span><b id="resGpa">0.00</b></div>
+            <div><span>Semester credits</span><b id="resCredits">0</b></div>
+            <div class="big"><span>CGPA</span><b id="resCgpa">0.00</b></div>
+          </div>
+          <details class="scale">
+            <summary>Grade scale used</summary>
+            <p id="scaleText"></p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. TO-DO LIST ============ -->
+    <section id="page-todo" class="page">
+      <header class="page-head">
+        <h1>✅ To-Do List</h1>
+        <p>Add assignments, set deadlines and tick them off when done.</p>
+      </header>
+
+      <div class="card">
+        <form id="todoForm" class="form-grid">
+          <label>Assignment / task
+            <input type="text" id="todoText" placeholder="e.g. Database project report" required maxlength="100">
+          </label>
+          <label>Course (optional)
+            <input type="text" id="todoCourse" placeholder="e.g. CS201" maxlength="30">
+          </label>
+          <label>Deadline
+            <input type="date" id="todoDate" required>
+          </label>
+          <button class="btn" type="submit">+ Add task</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="filters" id="todoFilters">
+          <button class="chip active" data-filter="all">All</button>
+          <button class="chip" data-filter="pending">Pending</button>
+          <button class="chip" data-filter="done">Completed</button>
+        </div>
+        <ul class="list todo" id="todoList"></ul>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
